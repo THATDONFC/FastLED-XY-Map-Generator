@@ -290,46 +290,49 @@ function printMap() {
   ledindex = 0;
   mapHTML += '<PRE>';
 
-  mapHTML += '// Params for width and height<BR>';
-  mapHTML += 'const uint8_t kMatrixWidth = ' + xdim + ';<BR>';
-  mapHTML += 'const uint8_t kMatrixHeight = ' + ydim + ';<BR><BR>';
-  mapHTML += '#define NUM_LEDS (kMatrixWidth * kMatrixHeight)<BR>';
-  mapHTML += 'CRGB leds[ NUM_LEDS ];<BR>';
-  mapHTML += '#define LAST_VISIBLE_LED ' + (countActiveLEDs()-1) + '<BR>';
+//   mapHTML += '// Params for width and height<BR>';
+//   mapHTML += 'const uint8_t kMatrixWidth = ' + xdim + ';<BR>';
+//   mapHTML += 'const uint8_t kMatrixHeight = ' + ydim + ';<BR><BR>';
+//   mapHTML += '#define NUM_LEDS (kMatrixWidth * kMatrixHeight)<BR>';
+//   mapHTML += 'CRGB leds[ NUM_LEDS ];<BR>';
+//   mapHTML += '#define LAST_VISIBLE_LED ' + (countActiveLEDs()-1) + '<BR>';
 
-  if (num_leds <= 256) {
-    mapHTML += 'uint8_t XY (uint8_t x, uint8_t y) {<BR>';
-  } else {
-    mapHTML += 'uint16_t XY (uint16_t x, uint16_t y) {<BR>';
-  }
-  mapHTML += '  // any out of bounds address maps to the first hidden pixel<BR>'
-  mapHTML += '  if ( (x >= kMatrixWidth) || (y >= kMatrixHeight) ) {<BR>';
-  mapHTML += '    return (LAST_VISIBLE_LED + 1);<BR>';
-  mapHTML += '  }<BR><BR>';
+//   if (num_leds <= 256) {
+//     mapHTML += 'uint8_t XY (uint8_t x, uint8_t y) {<BR>';
+//   } else {
+//     mapHTML += 'uint16_t XY (uint16_t x, uint16_t y) {<BR>';
+//   }
+//   mapHTML += '  // any out of bounds address maps to the first hidden pixel<BR>'
+//   mapHTML += '  if ( (x >= kMatrixWidth) || (y >= kMatrixHeight) ) {<BR>';
+//   mapHTML += '    return (LAST_VISIBLE_LED + 1);<BR>';
+//   mapHTML += '  }<BR><BR>';
 
-  if (num_leds <= 256) {
-    mapHTML += '  const uint8_t XYTable[] = ';
-  } else {
-    mapHTML += '  const uint16_t XYTable[] = ';
-  }
-  mapHTML += '{<BR>';
+//   if (num_leds <= 256) {
+//     mapHTML += '  const uint8_t XYTable[] = ';
+//   } else {
+//     mapHTML += '  const uint16_t XYTable[] = ';
+//   }
+  mapHTML += '{"map":[<BR>';
+  
+//   mapHTML += '{<BR>';
   for (y = 0; y < ydim; y++) {
-    mapHTML += '  ';
+//     mapHTML += '  ';
     for (x = 0; x < xdim; x++) {
-      mapHTML += pad('    ', pixelarray[ledindex][2], true);
+//       mapHTML += pad('    ', pixelarray[ledindex][2], true);
+      mapHTML += pad('', pixelarray[ledindex][2], true);
       ledindex++;
       if (ledindex < num_leds) mapHTML += ",";
     }
     mapHTML += "<BR>";
   }
-  mapHTML += '  };<BR><BR>';
-  if (num_leds <= 256) {
-    mapHTML += '  uint8_t i = (y * kMatrixWidth) + x;<BR>  uint8_t j = XYTable[i];<BR>  return j;<BR>';
-  } else {
-    mapHTML += '  uint16_t i = (y * kMatrixWidth) + x;<BR>  uint16_t j = XYTable[i];<BR>  return j;<BR>';
-  }
+  mapHTML += ']};<BR><BR>';
+//   if (num_leds <= 256) {
+//     mapHTML += '  uint8_t i = (y * kMatrixWidth) + x;<BR>  uint8_t j = XYTable[i];<BR>  return j;<BR>';
+//   } else {
+//     mapHTML += '  uint16_t i = (y * kMatrixWidth) + x;<BR>  uint16_t j = XYTable[i];<BR>  return j;<BR>';
+//   }
 
-  mapHTML += '}</PRE>';
+  mapHTML += '</PRE>';
 
   mapDiv.innerHTML = mapHTML;
 }
